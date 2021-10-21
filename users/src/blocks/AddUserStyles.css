@@ -1,0 +1,15 @@
+.add__user_wrapper{
+    background: #fff;
+    width: 1120px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.add__user_title{
+    align-self: center;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 27px;
+}
