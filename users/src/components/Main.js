@@ -3,10 +3,10 @@ import '../blocks/MainStyles.css'
 import User from "./User";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setEditedUsers, setIsOpen, setUsers} from "../redux/userReducer";
+
 import Loading from "./Loading";
 import EditUserPopup from "./EditUserPopup";
-import {deleteUserFromApi, patchUsersFromApi} from "../api/api";
+import {deleteUserServer, pathUser, setEditedUsers, setIsOpen} from "../redux/actions/actions";
 
 
 const Main = ({singOut}) => {
@@ -19,15 +19,11 @@ const Main = ({singOut}) => {
   const editedUser = useSelector(state => state.userReducer.editedUser)
 
   async function onCardDelete(id) {
-    const {data} = await deleteUserFromApi(id)
-    if (data) {
-      let filteredUsers = users.filter(user => user._id !== data._id);
-      dispatch(setUsers(filteredUsers))
+    if (window.confirm("Delete?")) {
+      dispatch(deleteUserServer(id))
+      dispatch(setIsOpen(false))
     }
-
-    dispatch(setIsOpen(false))
   }
-
 
   function onCardEdit(user) {
     dispatch(setEditedUsers(user))
@@ -35,9 +31,7 @@ const Main = ({singOut}) => {
   }
 
   async function handleSave(id, newUser) {
-    const {data} = await patchUsersFromApi(id, newUser)
-    const filteredUsers = users.map((user) => user._id === data._id ? data : user)
-    dispatch(setUsers(filteredUsers))
+    dispatch(pathUser(id, newUser))
     dispatch(setIsOpen(false))
   }
 
@@ -72,14 +66,15 @@ const Main = ({singOut}) => {
           </Link>
         </div>
         <div className="users__title">
-          <div className="users__id text">ID</div>
+          <div className="users__id text">№</div>
           <div className="users__date text">Date</div>
           <div className="users__name text">Name</div>
           <div className="users__job text">Job</div>
           <div className="users__email text">Email</div>
         </div>
         <div className="user__wrapper">
-          {isLoaded ? dataSearch.map((user) => <User
+          {isLoaded ? dataSearch.map((user, i) => <User
+              index={i}
               onCardEdit={onCardEdit}
               onCardDelete={onCardDelete}
               user={user} key={user._id}/>) : <Loading/>}

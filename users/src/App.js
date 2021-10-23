@@ -4,17 +4,15 @@ import {useEffect, useState} from "react";
 import {Redirect, Route, Switch, useHistory} from "react-router-dom";
 import Main from "./components/Main";
 import AddUser from "./components/AddUser";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchUsers, setUsers} from "./redux/userReducer";
+import {useDispatch} from "react-redux";
 import {authorize} from "./api/auth";
-import {addUserToApi} from "./api/api";
+import {fetchUsers, postUser} from "./redux/actions/actions";
+
 
 function App() {
   const history = useHistory()
   const dispatch = useDispatch()
   const [loggedIn, setLoggedIn] = useState(false);
-  const users = useSelector(state => state.userReducer.users)
-
 
   useEffect(() => {
     const token = localStorage.getItem('jwt');
@@ -47,9 +45,7 @@ function App() {
 
 
   async function addUser(newUser) {
-    const {data} = await addUserToApi(newUser)
-    const newData = [...users, data]
-    dispatch(setUsers(newData))
+    dispatch(postUser(newUser))
     history.push('/')
   }
 

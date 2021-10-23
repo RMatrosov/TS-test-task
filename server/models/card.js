@@ -11,20 +11,26 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
+    default: 'https://media.istockphoto.com/photos/mr-who-picture-id619400810?s=612x612',
     validate: {
       validator: (url) => validator.isURL(url),
       message: 'Неправильный формат ссылки',
     },
   },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
+  about: {
+    type: String,
+    minlength: 2,
+    maxlength: 30,
   },
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    default: [],
-  }],
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (email) => validator.isEmail(email),
+      message: 'Неправильный формат почты',
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,

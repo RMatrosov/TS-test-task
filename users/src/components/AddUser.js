@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
-import '../blocks/AddUserStyles.css'
+import styles from '../blocks/AddUser.module.css'
 import {Link} from "react-router-dom";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import InputGroup from "./InputGroup";
 
 const AddUser = ({addUser}) => {
 
@@ -9,8 +13,28 @@ const AddUser = ({addUser}) => {
   const [about, setAbout] = useState('');
   const [link, setLink] = useState('');
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const addSchema = yup.object().shape({
+    Name: yup.string()
+        .matches(/^([^0-9]*)$/, "Name should not contain numbers")
+        .min(2, "Must be more than 2 characters")
+        .required("Name is a required field"),
+    Email: yup.string()
+        .email("Email should have correct format")
+        .required("Email is a required field"),
+    Job: yup.string()
+        .matches(/^([^0-9]*)$/, "About should not contain numbers")
+        .min(2, "Must be more than 2 characters")
+        .required("About is a required field"),
+    Link: yup.string()
+        .url('Should be a valid URL or nothing')
+  });
+
+  const {register, formState: {errors}, handleSubmit} = useForm({
+    resolver: yupResolver(addSchema),
+    mode: "onBlur",
+  });
+
+  function onSubmit() {
     if (link !== '') {
       const newUser = {name, email, about, link}
       addUser(newUser)
@@ -21,57 +45,62 @@ const AddUser = ({addUser}) => {
   }
 
   return (
-      <div className='add__user_wrapper'>
-        <div className="popup__container">
-          <form action="#" className="form" onSubmit={handleSubmit}>
-            <h3 className="add__user_title">Create user</h3>
-            <div className="group">
-              <h5 className="form__heading">Name</h5>
-              <input type="text" className="form__input" id="name"
+      <div className={styles.add__user_wrapper}>
+        <div className={styles.container}>
+          <form action="#" className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+            <h3 className={styles.add__user_title}>Create user</h3>
+
+            <InputGroup value={"Name*"}>
+              <input type="text" className={styles.input}
                      value={name || ''}
-                     placeholder='send name'
+                     {...register("Name", {required: true})}
+                     placeholder='enter name...'
                      onChange={(e) =>
                          setName(e.target.value)}
               />
-            </div>
-            <div className="group">
-              <h5 className="form__heading">Email:</h5>
-              <input type="text" className="form__input" id="email"
+            </InputGroup>
+            <p className={styles.error}>{errors.Name?.message}</p>
+
+            <InputGroup value={"Email*"}>
+              <input type="text" className={styles.input} id="email"
                      value={email || ''}
-                     placeholder='send email'
+                     placeholder='enter email...'
+                     {...register("Email", {required: true})}
                      onChange={(e) =>
                          setEmail(e.target.value)}
               />
-            </div>
+            </InputGroup>
+            <p className={styles.error}>{errors.Email?.message}</p>
 
-            <div className="group">
-              <h5 className="form__heading">Job</h5>
-
-              <input type="text" className="form__input" id="Job"
+            <InputGroup value={"Job*"}>
+              <input type="text" className={styles.input} id="Job"
                      value={about || ''}
-                     placeholder='send job'
+                     placeholder='enter job...'
+                     {...register("Job", {required: true})}
                      onChange={(e) =>
                          setAbout(e.target.value)}
               />
-            </div>
-            <div className="group">
-              <h5 className="form__heading">Link</h5>
+            </InputGroup>
+            <p className={styles.error}>{errors.Job?.message}</p>
 
-              <input type="text" className="form__input" id="Link"
+            <InputGroup value={"Link"}>
+              <input type="text" className={styles.input} id="Link"
                      value={link || ''}
-                     placeholder='send link'
+                     placeholder='enter link...'
+                     {...register("Link", {required: true})}
                      onChange={(e) =>
                          setLink(e.target.value)}
               />
-            </div>
+            </InputGroup>
+            <p className={styles.error}>{errors.Link?.message}</p>
 
-            <div className="buttons__group">
+            <div className={styles.buttons__group}>
               <button
-                  type="submit" className="popup__button save">save
+                  type="submit" className={styles.popup__button_save}>save
               </button>
               <Link to='/' className="add">
                 <button
-                    type="button" className="popup__button delete">back
+                    type="button" className={styles.popup__button_delete}>back
                 </button>
               </Link>
             </div>

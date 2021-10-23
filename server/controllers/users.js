@@ -87,51 +87,8 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-const changeUserInfo = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about },
-    { new: true, runValidators: true })
-    .then((user) => {
-      if (!user) {
-        throw new NotValidId('Нет пользователя с таким id');
-      }
-      res.send({ data: user });
-    }).catch((err) => {
-      if (err.name === 'CastError') {
-        throw new CastError('Переданы некорректные данные при создании пользователя');
-      }
-      if (err.name === 'ValidationError') {
-        throw new ValidationError('Переданы некорректные данные');
-      }
-      next(err);
-    })
-    .catch(next);
-};
-
-const changeUserAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar },
-    { new: true, runValidators: true })
-    .then((userAvatar) => {
-      if (!userAvatar) {
-        throw new NotValidId('Нет пользователя с таким id');
-      }
-      res.send({ data: userAvatar });
-    }).catch((err) => {
-      if (err.name === 'CastError') {
-        throw new CastError('Переданы некорректные данные при создании пользователя');
-      }
-      if (err.name === 'ValidationError') {
-        throw new ValidationError('Переданы некорректные данные');
-      }
-      next(err);
-    })
-    .catch(next);
-};
 
 module.exports = {
-  changeUserInfo,
-  changeUserAvatar,
   createUser,
   getUsers,
   login,

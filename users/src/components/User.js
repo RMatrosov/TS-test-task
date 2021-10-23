@@ -2,7 +2,7 @@ import React from 'react';
 import '../blocks/UserStyles.css'
 
 
-const User = ({user, onCardEdit}) => {
+const User = ({user, onCardEdit, index}) => {
 
   function handleEditClick() {
     onCardEdit(user)
@@ -15,7 +15,7 @@ const User = ({user, onCardEdit}) => {
   return (
       <div className='user'>
         <div className="user__info">
-          <div className="user__text id">{user._id}</div>
+          <div className="user__text id">{index + 1}</div>
           <div className="user__text createdAt">{createDate}</div>
           <div className="user__text name">{user.name}</div>
           <div className="user__text about">{user.about}</div>
