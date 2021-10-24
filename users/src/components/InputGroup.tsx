@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {FC, ReactChild, ReactChildren} from 'react';
 import styles from "../blocks/AddUser.module.css";
 
-const InputGroup = ({children, value}) => {
+
+type TInputGroupProps = {
+    value:string
+    children: ReactChild | ReactChildren;
+}
+
+const InputGroup:FC<TInputGroupProps> = ({children, value}) => {
 
   return (
       <div className={styles.wrapper}>
