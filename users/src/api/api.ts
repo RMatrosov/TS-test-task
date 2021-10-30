@@ -1,10 +1,12 @@
 import axios from "axios";
 import {TNewUser} from "../types/TNewUser";
 
+const URL = `http://84.252.140.55:3000`
+
 
 export const patchUsersFromApi = async (id: string, newUser: TNewUser) => {
     try {
-        const {data} = await axios.patch(`http://localhost:3002/cards/${id}`, {
+        const {data} = await axios.patch(`${URL}/cards/${id}`, {
                 name: newUser.name,
                 email: newUser.email,
                 about: newUser.about,
@@ -19,7 +21,7 @@ export const patchUsersFromApi = async (id: string, newUser: TNewUser) => {
 
 export const addUserToApi = async (newUser: TNewUser) => {
     try {
-        const {data} = await axios.post(`http://localhost:3002/cards`, {
+        const {data} = await axios.post(`${URL}/cards`, {
                 name: newUser.name,
                 email: newUser.email,
                 about: newUser.about,
@@ -34,7 +36,7 @@ export const addUserToApi = async (newUser: TNewUser) => {
 
 export const deleteUserFromApi = async (id: string) => {
     try {
-        const {data} = await axios.delete(`http://localhost:3002/cards/${id}`)
+        const {data} = await axios.delete(`${URL}/cards/${id}`)
         return data
     } catch (e) {
         console.log(e)
@@ -43,7 +45,7 @@ export const deleteUserFromApi = async (id: string) => {
 
 export const fetchUsersFromApi = async () => {
     try {
-        const {data} = await axios.get('http://localhost:3002/cards')
+        const {data} = await axios.get(`${URL}/cards`)
         return data
     } catch (e) {
         console.log(e)

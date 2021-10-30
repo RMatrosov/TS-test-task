@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const NotValidEmailOrPassword = require('../errors/NotValidEmailOrPassword');
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 const handleAuthError = () => {
   throw new NotValidEmailOrPassword('передан неверный логин или пароль');
 };
@@ -17,7 +19,7 @@ module.exports = (req, res, next) => {
   const token = extractBearerToken(authorization);
   let payload;
   try {
-    payload = jwt.verify(token, 'super-strong-secret');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret');
   } catch (err) {
     return handleAuthError();
   }

@@ -1,4 +1,4 @@
-.log__in{
+.log__in {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -41,12 +41,26 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
     padding: 10px;
+    margin-bottom: 40px;
 }
 
 .log__in_error {
     color: #FF0000;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    width: 300px;
+    margin-top: 0;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    position: absolute;
+    top: 400px;
 }
+
+.second {
+    top: 480px;
+}
+
 
 .log__in_button {
     width: 290px;
@@ -60,7 +74,7 @@
     font-size: 18px;
     line-height: 22px;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 20px;
     color: #fff;
     background-color: #007bff;
     border-color: #007bff

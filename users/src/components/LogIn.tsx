@@ -27,7 +27,7 @@ const LogIn: FC<TLogInProps> = ({handleAuthorize}) => {
     });
 
     const [email, setEmail] = useState<string>('test@test.com');
-    const [password, setPassword] = useState<string>('test123456');
+    const [password, setPassword] = useState<string>('test12345');
 
     function onSubmit() {
         handleAuthorize(email, password)
@@ -45,12 +45,12 @@ const LogIn: FC<TLogInProps> = ({handleAuthorize}) => {
                 />
                 <p className={styles.log__in_error}>{errors.Email?.message}</p>
                 <input type="password" className={styles.log__in_input}
-                       placeholder='Пароль'
+                       placeholder='Password'
                        value={password || ''}
                        {...register("password", {required: true})}
                        onChange={(e) => setPassword(e.target.value)}
                 />
-                <p className={styles.log__in_error}>{errors.password?.message}</p>
+                <p className={styles.log__in_error + ' ' + styles.second} id='secondError'>{errors.password?.message}</p>
                 <button type='submit' className={styles.log__in_button}>Войти</button>
             </form>
         </div>

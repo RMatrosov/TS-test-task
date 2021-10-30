@@ -4,6 +4,8 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .add__user_title {
@@ -17,7 +19,6 @@
 .container {
     position: relative;
     width: 730px;
-    margin: auto;
     background: #FFFFFF;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
@@ -102,4 +103,16 @@
     display: flex;
     flex-direction: column;
 
+}
+
+@media (max-width: 734px) {
+    .container {
+        width: 530px;
+    }
+}
+
+@media (max-width: 550px) {
+    .container {
+        width: 330px;
+    }
 }
